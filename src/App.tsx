@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-function App() {
+import { store } from "./store";
+import { theme } from "ui";
+
+import { CharactersPage } from "./pages/Characters";
+import { UsersPage } from "./pages/Users";
+import { UserPage } from "pages/User";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <UsersPage />
+            </Route>
+            <Route exact path="/characters">
+              <CharactersPage />
+            </Route>
+            <Route exact path="/users">
+              <UsersPage />
+            </Route>
+            <Route exact path="/users/:userId">
+              <UserPage />
+            </Route>
+          </Switch>
+        </Router>
+      </ChakraProvider>
+    </Provider>
   );
-}
+};
 
 export default App;
