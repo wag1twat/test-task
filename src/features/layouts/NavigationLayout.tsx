@@ -1,4 +1,4 @@
-import { Flex, Stack, StackProps } from "@chakra-ui/layout";
+import { Stack, StackProps } from "@chakra-ui/layout";
 import React from "react";
 import { IBreadcrumbItem, Breadcrumbs } from "features";
 
