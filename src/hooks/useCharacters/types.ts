@@ -28,7 +28,7 @@ interface Character {
   description: string;
   events: BaseCharacterEntity<CharacterItem>;
   id: number;
-  modified: string;
+  modified: Date;
   name: string;
   resourceURI: string;
   series: BaseCharacterEntity<CharacterItem>;
@@ -37,4 +37,22 @@ interface Character {
   urls: { type: string; url: string }[];
 }
 
-export type { Character, CharacterQueries };
+interface CharactersDataResponse {
+  count: number;
+  limit: number;
+  offset: number;
+  results: Character[];
+  total: number;
+}
+
+interface CharactersResponse {
+  attributionHTML: string;
+  attributionText: string;
+  code: number;
+  copyright: string;
+  data: CharactersDataResponse;
+  etag: string;
+  status: string;
+}
+
+export type { Character, CharacterQueries, CharactersResponse };

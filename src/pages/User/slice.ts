@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     clearUserSlice: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(getUser.type, (state) => ({
+    builder.addCase(getUser.type, (_) => ({
       isLoading: true,
       error: null,
     }));

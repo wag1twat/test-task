@@ -1,29 +1,36 @@
-import { Stack } from "@chakra-ui/layout";
+import { Flex, Stack, StackProps } from "@chakra-ui/layout";
 import React from "react";
 import { IBreadcrumbItem, Breadcrumbs } from "features";
 
-interface NavigationLayoutProps {
+export interface NavigationLayoutProps extends StackProps {
   breadcrumbs: IBreadcrumbItem[];
 }
 
 export const NavigationLayout: React.FC<NavigationLayoutProps> = ({
   breadcrumbs,
+  children,
+  ...props
 }) => {
   return (
     <Stack
       width="100%"
-      direction="row"
       justifyContent="flex-start"
-      my={4}
-      spacing={4}
+      my={[1, 1, 2, 4]}
+      spacing={0}
       position="sticky"
       top={0}
       zIndex={101}
       backgroundColor="#fff"
-      height={10}
       alignItems="center"
+      {...props}
     >
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Breadcrumbs
+        py={2}
+        justifyContent="flex-start"
+        width="100%"
+        breadcrumbs={breadcrumbs}
+      />
+      {children}
     </Stack>
   );
 };

@@ -4,7 +4,7 @@ import { UserResponse } from "hooks/useUser";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { BaseRequestError } from "types";
 
-export const getUser = createAction("pending/user", (payload: string) => ({
+export const getUser = createAction("pending/user", (payload: number) => ({
   payload,
 }));
 

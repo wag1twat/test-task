@@ -1,8 +1,9 @@
 import { Flex, Stack } from "@chakra-ui/layout";
+import { Avatar, Card } from "features";
 import { User } from "hooks/useUsers";
 import React from "react";
 
-interface UserCardProps extends Record<keyof User, React.ReactNode> {}
+interface UserCardProps extends Partial<User> {}
 
 export const UserCard: React.FC<UserCardProps> = ({
   avatar,
@@ -11,22 +12,14 @@ export const UserCard: React.FC<UserCardProps> = ({
   email,
 }) => {
   return (
-    <Stack
-      spacing={4}
-      border="1px solid"
-      borderColor="gray.200"
-      borderRadius={4}
-      padding={4}
-      cursor="pointer"
-      width="100%"
-    >
+    <Stack as={Card} spacing={4}>
       <Stack
         direction="row"
         alignItems="center"
         justifyContent="flex-start"
         spacing={8}
       >
-        <Flex>{avatar}</Flex>
+        <Avatar name={avatar} src={avatar} />
         <Stack direction="row" spacing={2}>
           <Flex>{first_name}</Flex>
           <Flex>{last_name}</Flex>

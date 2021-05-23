@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { getMarvelsCharacters } from "./getCharactersSaga";
@@ -6,7 +6,6 @@ import { CharacterQueries } from "./types";
 
 export const useCharacters = (queries: Partial<CharacterQueries> = {}) => {
   const {
-    name,
     nameStartsWith,
     modifiedSince,
     comics,
@@ -20,10 +19,25 @@ export const useCharacters = (queries: Partial<CharacterQueries> = {}) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(
+  const get = useCallback(() => {
+    if (nameStartsWith) {
+      return dispatch(
+        getMarvelsCharacters({
+          nameStartsWith,
+          modifiedSince,
+          comics,
+          series,
+          events,
+          stories,
+          orderBy,
+          limit,
+          offset,
+        })
+      );
+    }
+
+    return dispatch(
       getMarvelsCharacters({
-        nameStartsWith,
         modifiedSince,
         comics,
         series,
@@ -35,18 +49,21 @@ export const useCharacters = (queries: Partial<CharacterQueries> = {}) => {
       })
     );
   }, [
-    dispatch,
-    name,
-    nameStartsWith,
-    modifiedSince,
     comics,
-    series,
+    dispatch,
     events,
-    stories,
-    orderBy,
     limit,
+    modifiedSince,
+    nameStartsWith,
     offset,
+    orderBy,
+    series,
+    stories,
   ]);
+
+  useEffect(() => {
+    get();
+  }, [get]);
 
   return useSelector((state: RootState) => state.characters);
 };

@@ -1,19 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMarvelsCharacters } from "hooks/useCharacters/getCharactersSaga";
+import { CharactersResponse } from "hooks/useCharacters";
+import {
+  fullfiledMarvelsCharacters,
+  getMarvelsCharacters,
+  rejectedMarvelsCharacters,
+} from "hooks/useCharacters/getCharactersSaga";
+import { BaseRequestError } from "types";
 
-interface State {}
+interface State extends Partial<CharactersResponse> {
+  isLoading: boolean;
+  error: BaseRequestError | null;
+}
 
-const initialState: State = {};
+const initialState: State = { isLoading: false, error: null };
 
 export const charactersSlice = createSlice({
   name: "charactersSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getMarvelsCharacters.type, (state, action) => {
-      console.log(action);
+    builder.addCase(getMarvelsCharacters.type, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    }));
 
-      return { ...state };
-    });
+    builder.addCase(
+      fullfiledMarvelsCharacters.type,
+      (state, action: ReturnType<typeof fullfiledMarvelsCharacters>) => ({
+        ...state,
+        isLoading: false,
+        error: null,
+        ...action.payload,
+      })
+    );
+
+    builder.addCase(
+      rejectedMarvelsCharacters.type,
+      (state, action: ReturnType<typeof rejectedMarvelsCharacters>) => ({
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      })
+    );
   },
 });

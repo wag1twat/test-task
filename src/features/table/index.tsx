@@ -19,7 +19,7 @@ export const DataTable: IDataTable = ({
   columns,
   data,
   onRowClick,
-  SmRowCard,
+  SmallRow,
   ...props
 }) => {
   const {
@@ -27,7 +27,7 @@ export const DataTable: IDataTable = ({
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page, // Row<object>[]
+    page,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -59,9 +59,9 @@ export const DataTable: IDataTable = ({
 
   const isXsBreakpoint = breakpoint === "xs";
 
-  const renderSmRowCard = useCallback(
+  const renderSmallRow = useCallback(
     (row: Row<typeof data[number]>) => {
-      if (!SmRowCard) {
+      if (!SmallRow) {
         return (
           <Stack {...row.getRowProps()} spacing={4}>
             {row.cells.map((cell) => {
@@ -76,28 +76,28 @@ export const DataTable: IDataTable = ({
         );
       }
 
-      const smRowCard = React.createElement(SmRowCard, {
+      const smallRow = React.createElement(SmallRow, {
         ...row.getRowProps(),
-        row,
+        data: row.original,
         onRowClick,
       });
 
-      if (!React.isValidElement(smRowCard)) {
+      if (!React.isValidElement(smallRow)) {
         return null;
       }
 
-      return smRowCard;
+      return smallRow;
     },
-    [SmRowCard, onRowClick]
+    [SmallRow, onRowClick]
   );
 
   if (isSmBreakpoint || isXsBreakpoint) {
     return (
-      <Stack spacing={4} my={2}>
+      <Stack spacing={4} my={2} width="100%">
         {page.map((row) => {
           prepareRow(row);
 
-          return renderSmRowCard(row);
+          return renderSmallRow(row);
         })}
         <StickyPagination>
           <Pagination
@@ -119,7 +119,7 @@ export const DataTable: IDataTable = ({
   }
 
   return (
-    <Flex flexDirection="column" position="relative">
+    <Flex width="100%" flexDirection="column" position="relative">
       <Table {...getTableProps()} {...props}>
         <Thead backgroundColor="#fff">
           {headerGroups.map((headerGroup) => (

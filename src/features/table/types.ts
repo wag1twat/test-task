@@ -1,10 +1,10 @@
-import { Column, Row, TableProps, TableRowProps } from "react-table";
+import { Column, TableProps, TableRowProps } from "react-table";
 
-export interface SmRowCardProps<T extends Row<any>> extends TableRowProps {
-  row: T;
+export interface SmallTableRowProps<T extends any> extends TableRowProps {
+  data: T;
   onRowClick?: (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    rowData: T["original"]
+    data: T
   ) => void;
 }
 
@@ -14,7 +14,7 @@ export interface DataTableProps<
 > extends TableProps {
   columns: Columns;
   data: Data;
-  SmRowCard?: React.FC<SmRowCardProps<Row<Data[number]>>>;
+  SmallRow?: React.FC<SmallTableRowProps<Data[number]>>;
   onRowClick?: (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     rowData: Data[number]

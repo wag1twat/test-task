@@ -1,10 +1,8 @@
-import { Text, Wrap, WrapItem } from "@chakra-ui/layout";
+import { UserCard } from "entities/UserCard";
 import {
   IBreadcrumbItem,
   NavigationLayout,
   PageLayout,
-  ResponsiveAvatar,
-  UserCard,
   LoaderLayout,
   ErrorLayout,
   ContentLayout,
@@ -21,8 +19,8 @@ export const UserPage: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { first_name, last_name, avatar, email, isLoading, error } =
-    useUser(userId);
+  const { id, first_name, last_name, avatar, email, isLoading, error } =
+    useUser(Number(userId));
 
   const breadcrumbs = useMemo<IBreadcrumbItem[]>(() => {
     return [
@@ -53,16 +51,10 @@ export const UserPage: React.FC = () => {
         <ErrorLayout error={error?.message}>
           <ContentLayout>
             <UserCard
-              id={null}
-              avatar={
-                <Wrap>
-                  <WrapItem>
-                    <ResponsiveAvatar name={first_name} src={avatar} />
-                  </WrapItem>
-                </Wrap>
-              }
-              first_name={<Text fontWeight="bold">{first_name}</Text>}
-              last_name={<Text fontWeight="bold">{last_name}</Text>}
+              id={id}
+              avatar={avatar}
+              first_name={first_name}
+              last_name={first_name}
               email={email}
             />
           </ContentLayout>

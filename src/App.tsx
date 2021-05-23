@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { store } from "./store";
 import { theme } from "ui";
 
-import { CharactersPage } from "./pages/Characters";
-import { UsersPage } from "./pages/Users";
+import { CharactersPage } from "pages/Characters";
+import { CharacterPage } from "pages/Character";
+import { UsersPage } from "pages/Users";
 import { UserPage } from "pages/User";
 
 const App = () => {
@@ -20,6 +21,9 @@ const App = () => {
             </Route>
             <Route exact path="/characters">
               <CharactersPage />
+            </Route>
+            <Route exact path="/characters/:characterId">
+              <CharacterPage />
             </Route>
             <Route exact path="/users">
               <UsersPage />

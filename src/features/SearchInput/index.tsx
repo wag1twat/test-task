@@ -25,19 +25,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     setValue(e.target.value);
   }, []);
 
-  useEffect(() => {
-    return () => {
-      setValue("");
-    };
-  }, []);
-
-  useEffect(() => {
-    if (typeof onInputChange === "function") {
-      onInputChange(value);
-    }
-  }, [onInputChange, value]);
-
-  const handleSearchButton = useCallback(
+  const handleClickSearchButton = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.stopPropagation();
 
@@ -48,11 +36,22 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     [onClickSearchButton, value]
   );
 
+  useEffect(() => {
+    if (typeof onInputChange === "function") {
+      onInputChange(value);
+    }
+  }, [onInputChange, value]);
+
+  useEffect(() => {
+    return () => {
+      setValue("");
+    };
+  }, []);
   return (
     <InputGroup>
       <Input value={value} onChange={handleChange} {...props} />
       <InputRightAddon p={0}>
-        <Button onClick={handleSearchButton}>
+        <Button onClick={handleClickSearchButton}>
           <SearchIcon />
         </Button>
       </InputRightAddon>

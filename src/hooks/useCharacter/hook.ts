@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import { getUser } from "./getUserSaga";
+import { getMarvelsCharacter } from "./getCharacterSaga";
 
-export const useUser = (id: number) => {
+export const useCharacter = (id: number) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser(id));
+    dispatch(getMarvelsCharacter(id));
   }, [dispatch, id]);
 
-  return useSelector((state: RootState) => state.user);
+  return useSelector((state: RootState) => state.character);
 };

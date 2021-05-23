@@ -1,12 +1,10 @@
-import { Flex, Stack, Wrap, WrapItem } from "@chakra-ui/layout";
-import { SearchInput } from "entities/SearchInput";
+import { SearchInput } from "features/SearchInput";
 import {
   DataTable,
   IBreadcrumbItem,
   LoaderLayout,
   NavigationLayout,
-  ResponsiveAvatar,
-  UserSmTableCard,
+  Avatar,
   PageLayout,
   ErrorLayout,
   ContentLayout,
@@ -18,6 +16,7 @@ import { useHistory } from "react-router";
 import { Column } from "react-table";
 import { clearUsersSlice } from "./slice";
 import { filterUsersBySubstring, UsersFilters } from "./utils";
+import { UserSmTableCard } from "entities/UserSmTableCard";
 
 export const UsersPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,14 +47,10 @@ export const UsersPage: React.FC = () => {
         accessor: "avatar",
         Cell: (cell) => {
           return (
-            <Wrap>
-              <WrapItem>
-                <ResponsiveAvatar
-                  name={cell.row.original.first_name}
-                  src={cell.row.original.avatar}
-                />
-              </WrapItem>
-            </Wrap>
+            <Avatar
+              name={cell.row.original.first_name}
+              src={cell.row.original.avatar}
+            />
           );
         },
       },
@@ -78,6 +73,13 @@ export const UsersPage: React.FC = () => {
     [isLoading]
   );
 
+  const forwardUser = useCallback(
+    (_: React.MouseEvent<HTMLTableRowElement, MouseEvent>, user: User) => {
+      history.push(`/users/${user.id}`);
+    },
+    [history]
+  );
+
   useEffect(() => {
     return () => {
       dispatch(clearUsersSlice());
@@ -86,34 +88,23 @@ export const UsersPage: React.FC = () => {
 
   return (
     <PageLayout>
-      <NavigationLayout breadcrumbs={breadcrumbs} />
+      <NavigationLayout breadcrumbs={breadcrumbs}>
+        <ContentLayout backgroundColor="#fff">
+          <SearchInput
+            onInputChange={handleSearchInputChange}
+            placeholder="Enter for search user..."
+          />
+        </ContentLayout>
+      </NavigationLayout>
       <LoaderLayout isLoading={isLoading}>
         <ErrorLayout error={error?.message}>
           <ContentLayout>
-            <Flex
-              width="100%"
-              backgroundColor="#fff"
-              position="sticky"
-              top={10}
-              pt={2}
-              zIndex={2}
-            >
-              <SearchInput
-                onInputChange={handleSearchInputChange}
-                placeholder="Enter for search user..."
-              />
-            </Flex>
-          </ContentLayout>
-
-          <ContentLayout>
-            <Stack width="100%">
-              <DataTable
-                columns={columns}
-                data={filterUsersBySubstring(data, filters)}
-                SmRowCard={UserSmTableCard}
-                onRowClick={(_, row) => history.push(`/users/${row.id}`)}
-              />
-            </Stack>
+            <DataTable
+              columns={columns}
+              data={filterUsersBySubstring(data, filters)}
+              SmallRow={UserSmTableCard}
+              onRowClick={forwardUser}
+            />
           </ContentLayout>
         </ErrorLayout>
       </LoaderLayout>

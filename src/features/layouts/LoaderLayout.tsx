@@ -12,11 +12,11 @@ export const LoaderLayout: React.FC<LoaderLayoutProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <Flex alignItems="center" justifyContent="center" {...props}>
+      <Flex alignItems="center" justifyContent="center" padding={4} {...props}>
         <Spinner size="md" />
       </Flex>
     );
   }
 
-  return <>{children}</>;
+  return <> {children}</>;
 };

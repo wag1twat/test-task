@@ -10,11 +10,13 @@ import { charactersSlice } from "pages/Characters/slice";
 import { rootSaga } from "./rootSaga";
 import { usersSlice } from "pages/Users/slice";
 import { userSlice } from "pages/User/slice";
+import { characterSlice } from "pages/Character";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   characters: charactersSlice.reducer,
+  character: characterSlice.reducer,
   users: usersSlice.reducer,
   user: userSlice.reducer,
 });
